@@ -1,0 +1,17 @@
+[
+  {
+    "name": "cusor",
+    "purpose": "AI增强代码",
+    "free": true
+  },
+  {
+    "name": "cusor",
+    "purpose": "对话和写代码的",
+    "free": false
+  },
+  {
+    "name": "cusor",
+    "purpose": "本地跑大模型",
+    "free": true
+  }
+]

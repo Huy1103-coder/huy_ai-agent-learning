@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Cursor",
+    "purpose": "AI 增强代码编辑器",
+    "free": true
+  },
+  {
+    "name": "Claude",
+    "purpose": "对话和写代码",
+    "free": false
+  },
+  {
+    "name": "Ollama",
+    "purpose": "本地跑大模型",
+    "free": true
+  }
+]
