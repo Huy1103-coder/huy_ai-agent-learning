@@ -18,22 +18,25 @@
 | 第 8 个月 | 作品集打磨 / 进阶 | ⏳ |
 
 ## 📂 项目结构
+
+```text
 ai-learning/
-├── week1-files/          # 第 1 周练习:Python 文件读写、JSON
+├── week1-files/                  # 第 1 周练习:Python 文件读写、JSON
 │   ├── 01_write_txt.py
 │   ├── 02_read_txt.py
 │   ├── 03_append_txt.py
 │   ├── 04_json_basic.py
 │   └── 05_practice.py
-├── week1-weather/        # 第 1 周项目:天气查询脚本
-│   ├── 01_weather_basic.py    # 基础版:跑通 API 调用
-│   ├── 02_weather_pretty.py   # 进阶版:格式化输出
-│   ├── 03_weather_robust.py   # 健壮版:异常处理
-│   ├── 04_weather_logging.py  # 工程版:日志记录
-│   ├── weather_lib.py         # 可测试的库代码
-│   ├── test_basic.py          # pytest 入门示例
-│   └── test_weather_lib.py    # 单元测试用例
-└── hello.py              # 第一个 Python 测试文件
+├── week1-weather/                # 第 1 周项目:天气查询脚本
+│   ├── 01_weather_basic.py       # 基础版:跑通 API 调用
+│   ├── 02_weather_pretty.py      # 进阶版:格式化输出
+│   ├── 03_weather_robust.py      # 健壮版:异常处理
+│   ├── 04_weather_logging.py     # 工程版:日志记录
+│   ├── weather_lib.py            # 可测试的库代码
+│   ├── test_basic.py             # pytest 入门示例
+│   └── test_weather_lib.py       # 单元测试用例
+└── hello.py                      # 第一个 Python 测试文件
+```
 
 ## 🛠 技术栈
 
