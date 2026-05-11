@@ -14,3 +14,12 @@ Thumbs.db
 
 # 环境变量（重要！下个月放 API Key 用）
 .env
+
+#测试缓存
+.pytest_cache/
+
+#日志文件
+*.log
+
+#Python 编译产物
+*.pyc
