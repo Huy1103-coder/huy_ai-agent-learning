@@ -23,3 +23,6 @@ Thumbs.db
 
 #Python 编译产物
 *.pyc
+
+# Todo 用户数据
+todos.json
