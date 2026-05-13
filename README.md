@@ -21,16 +21,15 @@
 
 ```text
 ai-learning/
-├── week1-files/          # 第 1 周练习:文件读写、JSON
-├── week1-weather/        # 第 1 周项目:天气查询脚本
-│   ├── 01-04_weather_*.py    # 渐进式 4 个版本
-│   ├── weather_lib.py         # 库代码
-│   └── test_weather_lib.py    # 13 个测试
-├── week2-todo/           # 第 2 周项目:Todo CLI ⭐ NEW
-│   ├── todo_lib.py            # 10 个函数
-│   ├── todo_cli.py            # 7 个命令
-│   └── test_todo_lib.py       # 19 个测试
-└── hello.py              # 第一个 Python 测试文件
+├── week1-files/            # 第 1 周练习:文件读写、JSON
+├── week1-weather/          # 第 1 周项目:天气查询脚本
+├── week2-todo/             # 第 2 周项目 1:Todo CLI
+├── week2-fastapi/          # 第 2 周项目 2:FastAPI 三个 Web 服务 ⭐ NEW
+│   ├── 01_hello.py             # Hello World
+│   ├── 02_text_api.py          # 文本统计 API
+│   ├── 03_weather_api.py       # 天气查询 API
+│   └── weather_lib.py          # 复用第 1 周的库代码
+└── hello.py
 ```
 
 ## 🛠 技术栈
@@ -63,3 +62,10 @@ pip install requests python-dotenv pytest
 
 ### 4. 配置 API Key
 在根目录创建 `.env` 文件:
+
+## ✅ 已交付项目
+
+- **week1-files**:Python 文件读写、JSON 处理练习
+- **week1-weather**:天气查询 CLI 工具(13 个 pytest)
+- **week2-todo**:命令行 Todo 管理工具(19 个 pytest)
+- **week2-fastapi**:三个 FastAPI Web 服务示例
