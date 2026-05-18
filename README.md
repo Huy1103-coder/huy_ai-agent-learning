@@ -8,8 +8,8 @@
 
 | 月份 | 主题 | 状态 |
 |---|---|---|
-| 第 1 个月 | Python 小项目 + API 基础 | 🚧 进行中 |
-| 第 2 个月 | LLM 应用开发 + Transformer 概念 | ⏳ |
+| 第 1 个月 | Python 小项目 + API 基础 | ✅ 已完成 |
+| 第 2 个月 | LLM 应用开发 + Transformer 概念 | 🚧 进行中 |
 | 第 3 个月 | Tool Calling + 初级 Agent | ⏳ |
 | 第 4 个月 | RAG 与知识库 | ⏳ |
 | 第 5 个月 | 单 Agent 框架 | ⏳ |
@@ -21,14 +21,15 @@
 
 ```text
 ai-learning/
-├── week1-files/            # 第 1 周练习:文件读写、JSON
-├── week1-weather/          # 第 1 周项目:天气查询脚本
+├── week1-files/            # 第 1 周练习
+├── week1-weather/          # 第 1 周项目:天气查询
 ├── week2-todo/             # 第 2 周项目 1:Todo CLI
-├── week2-fastapi/          # 第 2 周项目 2:FastAPI 三个 Web 服务 ⭐ NEW
-│   ├── 01_hello.py             # Hello World
-│   ├── 02_text_api.py          # 文本统计 API
-│   ├── 03_weather_api.py       # 天气查询 API
-│   └── weather_lib.py          # 复用第 1 周的库代码
+├── week2-fastapi/          # 第 2 周项目 2:FastAPI Web 服务
+├── month2-llm/             # 第 2 个月项目:LLM 应用开发 ⭐ NEW
+│   ├── 01-04_*.py              # API 基础 + 多轮对话
+│   ├── 05-07_*.py              # Prompt 工程实战
+│   ├── 08-09_*.py              # 结构化输出基础
+│   └── 10_resume_extractor.py  # AI 简历提取器(作品级)
 └── hello.py
 ```
 
@@ -69,3 +70,4 @@ pip install requests python-dotenv pytest
 - **week1-weather**:天气查询 CLI 工具(13 个 pytest)
 - **week2-todo**:命令行 Todo 管理工具(19 个 pytest)
 - **week2-fastapi**:三个 FastAPI Web 服务示例
+- **month2-llm**:LLM 应用开发实战集(10 个程序,含 AI 简历提取器)⭐ NEW
