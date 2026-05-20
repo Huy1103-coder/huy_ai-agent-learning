@@ -70,4 +70,6 @@ pip install requests python-dotenv pytest
 - **week1-weather**:天气查询 CLI 工具(13 个 pytest)
 - **week2-todo**:命令行 Todo 管理工具(19 个 pytest)
 - **week2-fastapi**:三个 FastAPI Web 服务示例
-- **month2-llm**:LLM 应用开发实战集(10 个程序,含 AI 简历提取器)⭐ NEW
+- **month2-llm**:LLM 应用开发实战集(**16 个程序** + 2 份深度笔记) ⭐
+  - 含 AI 简历提取器(作品级)
+  - 含流式输出 + Token 优化(生产级技能)
