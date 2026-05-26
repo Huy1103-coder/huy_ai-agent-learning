@@ -1,0 +1,4 @@
+openai >= 1.50.0
+requests>= 2.32.04
+python-dotenv>= 1.0.0
+pytest>= 8.0.0
