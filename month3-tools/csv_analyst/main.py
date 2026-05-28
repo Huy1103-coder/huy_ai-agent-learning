@@ -77,7 +77,26 @@ def run_agent(user_question:str,max_iterations:int = 10,verbose: bool = True) ->
             if verbose:
                 print(f"  - {tool_name}({tool_agrs})")
             
-            result = TOOL_MAP[tool_name](**tool_agrs)
+            try:
+                if tool_name not in TOOL_MAP:
+                    result ={
+                        "error":f"工具'{tool_name}' 不存在。"
+                                f"可用工具:{list(TOOL_MAP.keys())}"
+                    }
+                else:
+                    result = TOOL_MAP[tool_name](**tool_agrs)
+            except TypeError as e:
+                import inspect
+                sig = inspect.signature(TOOL_MAP[tool_name])
+                result = {
+                    "error":f"调用 {tool_name}时参数错误：{e}。"
+                            f"该工具的正确参数:{dict(sig.parameters)}"
+                }
+
+            except Exception as e:
+             result = {
+                "error": f"工具 {tool_name} 执行失败: {type(e).__name__}: {e}"
+                 }
 
             if verbose:
                 status = "❌" if "error" in result else "✅"
