@@ -103,7 +103,7 @@ def get_weather(city:str)  ->dict:
         
         if response.status_code != 200:
             return {"error":f"API 返回异常状态码 {response.status_code}"}
-        
+         
         data = response.json()
         wind_ms =data['wind']["speed"]
         return {

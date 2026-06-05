@@ -53,7 +53,7 @@ def get_weather(city:str)  ->dict:
             "wind_speed": data["wind"]["speed"],
         }
     
-    except requests.exceptions.Timeout:
+    except requests.exceptions.Timeout :
         return {"error":"请求超时（5秒），网络可能不稳定"}
     
     except requests.exceptions.ConnectionError:

@@ -97,7 +97,7 @@ def load_csv(file_path:str) -> dict:
     
     # ---- Step 2: 尝试加载 CSV ----
     try:
-        df = pd.read_csv(file_path)
+        df = _load_df(file_path)
     except pd.errors.EmptyDataError:
         return {"error":"CSV 文件夹是空的（没有任何内容）"}
     except pd.errors.ParserError as e:
@@ -155,7 +155,7 @@ def filter_rows(file_path: str, conditions: dict, max_rows: int = 50) -> dict:
         return {"error": f"不是有效的 CSV 文件: {file_path}"}
     
     try:
-        df = pd.read_csv(file_path)
+        df = _load_df(file_path)
     except Exception as e:
         return {"error": f"加载失败: {type(e).__name__}: {e}"}
     
@@ -225,7 +225,7 @@ def column_stats(file_path: str, column: str, top_n: int = 5) -> dict:
         return {"error": f"文件不存在: {file_path}"}
     
     try:
-        df = pd.read_csv(file_path)
+        df,sample_meta = _load_df_sample(file_path)
     except Exception as e:
         return {"error": f"加载失败: {type(e).__name__}: {e}"}
     
@@ -280,6 +280,7 @@ def column_stats(file_path: str, column: str, top_n: int = 5) -> dict:
             str(k): int(v) for k, v in value_counts.head(5).items()
         }
     
+    result["sample_info"] = sample_meta
     return result
 
 
@@ -315,7 +316,7 @@ def group_stats(
         return {"error": f"不支持的聚合函数: {agg_func}。支持: {sorted(valid_funcs)}"}
     
     try:
-        df = pd.read_csv(file_path)
+        df,sample_meta = _load_df_sample(file_path)
     except Exception as e:
         return {"error": f"加载失败: {type(e).__name__}: {e}"}
     
@@ -347,6 +348,7 @@ def group_stats(
         "agg_func": agg_func,
         "group_count": len(result_dict),
         "results": result_dict,
+        "sampling_info":sample_meta,
     }
 
 # ============================================================
@@ -401,7 +403,7 @@ def detect_anomalies(
         return {"error":f"文件不存在:{file_path}"}
     
     try:
-        df = pd.read_csv(file_path)
+        df = _load_df(file_path)
     except Exception as e:
         return {"error":f"加载失败：{type(e).__name__}:{e}"}
     
@@ -472,11 +474,103 @@ def detect_anomalies(
             "moderate_count": int((vote_count == 2).sum()),
             "mild_count": int((vote_count == 1).sum()),
         },
-        "total_anomalies": int(anomaly_mask.sum()),
-        "shown_count": len(anomaly_data),
+        "total_anomalies": int((vote_count >= 2).sum()),
+        "mild_flags":int((vote_count == 1).sum()),
+        "shown_count":len(anomaly_data),
         "truncated": int(anomaly_mask.sum()) > max_anomalies,
         "anomalies": anomaly_data,
      }
+
+# ============================================================
+# DataFrame 缓存层
+# 避免同一个文件被多个工具重复 read_csv
+# ============================================================
+_DF_CACHE = {}
+
+def _load_df(file_path:str) -> pd.DataFrame:
+    """
+    带缓存的 CSV 加载。
+    
+    缓存策略:
+    - 用"文件路径 + 修改时间"作为缓存键
+    - 文件没变 → 直接返回缓存的 DataFrame
+    - 文件变了 → 重新加载并更新缓存
+    
+    抛出异常由调用方处理(各工具的 try/except)。
+    """
+    path = Path(file_path)
+    mtime = path.stat().st_mtime
+
+    cache_key = str(path)
+
+    if cache_key in _DF_CACHE:
+        cached_time,cached_df = _DF_CACHE[cache_key]
+        if cached_time == mtime:
+            return cached_df
+        
+    df = pd.read_csv(file_path)
+    _DF_CACHE[cache_key] = (mtime,df)
+
+    return df
+LARGE_FILE_THRESHOLD = 100_000
+SAMPLE_SIZE = 50_000
+
+def _count_rows(file_path:str) -> int:
+    with open(file_path,encoding="utf-8-sig") as f:
+        return sum(1 for _ in f) - 1 
+
+
+def _load_df_sample(file_path:str) -> tuple[pd.DataFrame,dict]:
+     """
+    统计类工具专用的智能加载:
+    - 小文件(< 阈值):全量加载(用缓存)
+    - 大文件(>= 阈值):随机抽样,加速统计
+
+    ⚠️ 仅用于"统计聚合"工具(group_stats/column_stats)。
+    异常检测和精确查询必须用 _load_df(全量),不能抽样。
+
+    返回:(DataFrame, 元信息 dict)
+    """
+     total_rows = _count_rows(file_path)
+
+     if total_rows < LARGE_FILE_THRESHOLD:
+         df = _load_df(file_path)
+         meta ={
+             "sampled":False,
+             "total_rows":total_rows,
+             "analyzed_rows":total_rows,
+         }
+         return df,meta
+     
+     import random
+     random.seed(42)
+     skip_prob = 1 -(SAMPLE_SIZE / total_rows)
+     skip_rows = [
+         i for i in range(1, total_rows)
+         if random.random() < skip_prob
+
+     ]
+     df = pd.read_csv(file_path,skiprows=skip_rows)
+
+     meta = {
+         "sampled":True,
+         "total_rows": total_rows,
+         "analyzed_rows": len(df),
+         "sample_note":(
+           f"⚠️ 文件有 {total_rows:,} 行,超过 {LARGE_FILE_THRESHOLD:,} 行阈值,"
+            f"已随机抽样 {len(df):,} 行做统计分析。"
+            f"统计值(均值/总和/分组)基于抽样,可能有小幅误差。"
+         ),
+     }
+
+     return df,meta
+
+
+
+
+
+
+
 
 # ============================================================
 # 工具路由表

@@ -1,0 +1,25 @@
+# 环境变量(含 API Key,绝不上传!)
+.env
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# pytest 缓存
+.pytest_cache/
+
+# 虚拟环境
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# 大数据文件(太大,让用户自己生成)
+data/sales_large.csv
+
+# 系统文件
+.DS_Store
+Thumbs.db
